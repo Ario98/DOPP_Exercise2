@@ -130,3 +130,5 @@ dmypy.json
 
 # Data - too large
 data/games.csv
+data/preprocessed.csv
+data/preprocessed.xlsx
