@@ -23,7 +23,7 @@ df = df[df['Genres'].notna()]
 df = df[df['Categories'].notna()]
 
 # Drop rows containing 0 in both Positive and Negative columns
-df = df[~(df['Positive'] == 0) & (df['Negative'] == 0)]
+#df = df[~(df['Positive'] == 0) & (df['Negative'] == 0)]
 
 # Expand the columns containing genres, tags and categories. Also languages
 df = df.join(df.Categories.str.get_dummies(',').add_prefix("category_"))
@@ -43,4 +43,6 @@ df = df.replace({True: 1, False: 0})
 # Drop exploded columns
 df = df.drop(['Categories', 'Genres', 'Tags'], axis=1)
 
-df.to_excel("data/preprocessed.xlsx", index=False)
+print(df.dtypes)
+
+df.to_csv("data/preprocessed_full.csv", index=False)
