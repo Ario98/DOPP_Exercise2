@@ -2,6 +2,8 @@ from sklearn.linear_model import LinearRegression
 from sklearn.ensemble import RandomForestRegressor
 from sklearn.pipeline import Pipeline
 from sklearn.preprocessing import StandardScaler
+from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import RobustScaler
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 import pandas as pd
@@ -17,20 +19,13 @@ df = pd.read_csv("data/preprocessed_full.csv")
 # Split the data into training and test sets
 X = df.drop('Positive', axis=1)
 y = df['Positive']
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
 
 # Create the pipeline
 pipe = Pipeline([
     ('scaler', StandardScaler()),
     ('pca', PCA(n_components=0.95)),
-    ('regressor', LinearRegression())
+    ('regressor', XGBRegressor())
 ])
-
-# Fit the pipeline to the training data
-pipe.fit(X_train, y_train)
-
-# Make predictions on the test data
-y_pred = pipe.predict(X_test)
 
 # Measure the performance of the model
 r2 = cross_val_score(pipe, X, y, cv=5, scoring='r2')
